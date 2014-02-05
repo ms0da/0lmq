@@ -11,3 +11,10 @@
 *.lai
 *.la
 *.a
+
+# MSVS
+*.tlog
+*.sdf
+*.opensdf
+*.lastbuildstate
+*.idb
