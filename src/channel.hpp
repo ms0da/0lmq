@@ -3,12 +3,9 @@
 #define LMQ_CHANNEL_H
 
 #include <list>
+#include "bindable.hpp"
 
 namespace lmq {
-
-    class bindable {};
-    class consumer : public bindable {};
-    class producer : public bindable {};
 
     struct channel {
         typedef int id_type;
