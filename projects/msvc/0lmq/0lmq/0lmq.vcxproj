@@ -118,11 +118,13 @@
     <ClInclude Include="..\..\..\..\src\bindable.hpp" />
     <ClInclude Include="..\..\..\..\src\channel.hpp" />
     <ClInclude Include="..\..\..\..\src\context.hpp" />
+    <ClInclude Include="..\..\..\..\src\locked_queue.hpp" />
     <ClInclude Include="..\..\..\..\test\test.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\test\channel_test.cpp" />
     <ClCompile Include="..\..\..\..\test\context_test.cpp" />
+    <ClCompile Include="..\..\..\..\test\locked_queue_test.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -27,12 +27,18 @@
     <ClInclude Include="..\..\..\..\src\bindable.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\src\locked_queue.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\test\channel_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\test\context_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\test\locked_queue_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
