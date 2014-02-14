@@ -49,7 +49,6 @@ namespace lmq {
         list_type _list;
         mutex_type _mutex;
     };
-
 }
 
 #endif

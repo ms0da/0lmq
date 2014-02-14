@@ -16,7 +16,6 @@ void random_populate_queue(lmq::locked_queue<int> &q, const int min, const int m
     }
 }
 
-
 SCENARIO("lockeq queue") {
     using lmq::locked_queue;
     typedef locked_queue<int> queue_type;
@@ -57,7 +56,6 @@ SCENARIO("lockeq queue") {
     GIVEN("a queue with more than 2 elements and less than 100 elements") {
         random_populate_queue(q, min_count, max_count);
         const auto queue_size = q.size();
-
 
         WHEN("an element is removed") {
             q.pop_front();

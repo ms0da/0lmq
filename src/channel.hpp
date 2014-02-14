@@ -1,6 +1,6 @@
 
-#ifndef LMQ_CHANNEL_H
-#define LMQ_CHANNEL_H
+#ifndef LMQ_CHANNEL_HPP
+#define LMQ_CHANNEL_HPP
 
 #include <list>
 #include "bindable.hpp"
@@ -40,7 +40,6 @@ namespace lmq {
         bindable_list _producers;
         bindable_list _consumers;
     };
-
 }
 
 #endif
