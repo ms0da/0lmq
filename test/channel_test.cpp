@@ -1,6 +1,10 @@
 
 #include "test.hpp"
 #include "../src/channel.hpp"
+#include "../src/context.hpp"
+
+#include "../src/consumer.hpp"
+#include "../src/producer.hpp"
 
 SCENARIO("channel") {
     using lmq::channel;
@@ -13,9 +17,12 @@ SCENARIO("channel") {
     auto producers = ch.get_producers();
     REQUIRE(0 == producers.size());
 
+    using lmq::context;
+    const context ctx;
+
     GIVEN("a consumer") {
         using lmq::consumer;
-        const consumer co;
+        consumer co(ctx);
         
         WHEN("the consumer is added") {
             ch.add_consumer(co);
@@ -28,7 +35,7 @@ SCENARIO("channel") {
     }
     GIVEN("a producer") {
         using lmq::producer;
-        const producer pr;
+        producer pr(ctx);
 
         WHEN("the producer is added") {
             ch.add_producer(pr);

@@ -117,8 +117,11 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\..\src\bindable.hpp" />
     <ClInclude Include="..\..\..\..\src\channel.hpp" />
+    <ClInclude Include="..\..\..\..\src\channel_id.hpp" />
+    <ClInclude Include="..\..\..\..\src\consumer.hpp" />
     <ClInclude Include="..\..\..\..\src\context.hpp" />
     <ClInclude Include="..\..\..\..\src\locked_queue.hpp" />
+    <ClInclude Include="..\..\..\..\src\producer.hpp" />
     <ClInclude Include="..\..\..\..\test\test.hpp" />
   </ItemGroup>
   <ItemGroup>

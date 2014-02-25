@@ -4,6 +4,9 @@
 #include "../ext/catch/catch.hpp"
 #include "../src/context.hpp"
 
+#include "../src/consumer.hpp"
+#include "../src/producer.hpp"
+
 SCENARIO("context") {
     using lmq::context;
     context ctx;
@@ -27,8 +30,8 @@ SCENARIO("context") {
             }
         }
         WHEN("a consumer binds") {
-            consumer c;
-            ctx.bind_channel(c_id, c);
+            consumer c(ctx);
+            c.bind(c_id);
 
             THEN("the channel count and number of consumer are increased") {
                 REQUIRE(1 == ctx.get_channel_count());
@@ -42,8 +45,8 @@ SCENARIO("context") {
             }
         }
         WHEN("a producer binds") {
-            producer p;
-            ctx.bind_channel(c_id, p);
+            producer p(ctx);
+            p.bind(c_id);
 
             THEN("the channel count and number of producer are increased") {
                 REQUIRE(1 == ctx.get_channel_count());
@@ -59,22 +62,3 @@ SCENARIO("context") {
     }
 
 }
-
-//SCENARIO("binding channels", "context") {
-//    using lmq::context;
-//    context ctx;
-//
-//    auto channel_count = ctx.get_channel_count();
-//    REQUIRE(0 == channel_count);
-//   
-//    const lmq::channel::id_type channel_id = 1;
-//
-//    SECTION("bind consumer") {
-//        ctx.bind_consumer(channel_id, lmq::bindable());
-//        channel_count = ctx.get_channel_count();
-//        REQUIRE(1 == channel_count);
-//        const auto first_channel = ctx.get_channel_count(channel_id);
-//        REQUIRE(1 == channel_count);
-//    }
-//
-//}

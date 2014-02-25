@@ -3,23 +3,26 @@
 #define LMQ_CHANNEL_HPP
 
 #include <list>
-#include "bindable.hpp"
+#include "channel_id.hpp"
+//#include "bindable.hpp"
 
 namespace lmq {
 
+    class bindable;
+
     struct channel {
-        typedef int id_type;
+        typedef channel_id::id_type id_type;
         typedef std::list<bindable> bindable_list;
 
         channel(const id_type& id)
         :_channel_id(id) {
         }
 
-        void add_consumer(const consumer& consumer) {
+        void add_consumer(const bindable& consumer) {
             _consumers.push_back(consumer);
         }
 
-        void add_producer(const producer& producer) {
+        void add_producer(const bindable& producer) {
             _producers.push_back(producer);
         }
 

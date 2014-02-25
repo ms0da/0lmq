@@ -15,7 +15,12 @@ namespace lmq {
             return ctx;
         }*/
 
-        void bind_channel(const channel::id_type channel_id, const consumer& c) {
+        void bind_channel(const channel::id_type& channel_id, bindable* b, const bool is_consumer) {
+            auto ch = get_existing_channel(channel_id);
+            is_consumer ? ch->add_consumer(*b) : ch->add_producer(*b);
+        }
+
+        /*void bind_channel(const channel::id_type channel_id, const consumer& c) {
             auto ch = get_existing_channel(channel_id);
             ch->add_consumer(c);
         }
@@ -23,7 +28,7 @@ namespace lmq {
         void bind_channel(const channel::id_type channel_id, const producer& p) {
             auto ch = get_existing_channel(channel_id);
             ch->add_producer(p);
-        }
+        }*/
 
         container_type::size_type get_channel_count() const {
             return _channels.size();
