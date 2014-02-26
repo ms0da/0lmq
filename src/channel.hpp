@@ -3,45 +3,50 @@
 #define LMQ_CHANNEL_HPP
 
 #include <list>
-#include "channel_id.hpp"
-//#include "bindable.hpp"
+#include "bindable.hpp"
 
 namespace lmq {
 
-    class bindable;
+    // USE POINTER FOR CONTENT OF LISTS
+    // UNIQUE PTR? AUTO PTR?
 
     struct channel {
         typedef channel_id::id_type id_type;
-        typedef std::list<bindable> bindable_list;
+
+        typedef consumer_base* const consumer_const_ptr_type;
+        typedef std::list<consumer_const_ptr_type> consumer_list;
+
+        typedef producer_base* const producer_const_ptr_type;
+        typedef std::list<producer_const_ptr_type> producer_list;
 
         channel(const id_type& id)
         :_channel_id(id) {
-        }
-
-        void add_consumer(const bindable& consumer) {
-            _consumers.push_back(consumer);
-        }
-
-        void add_producer(const bindable& producer) {
-            _producers.push_back(producer);
         }
 
         const id_type get_id() const {
             return _channel_id;
         }
 
-        const bindable_list& get_producers() const {
-            return _producers;
+        void add_consumer(consumer_const_ptr_type consumer) {
+            _consumers.push_back(consumer);
         }
 
-        const bindable_list& get_consumers() const {
+        void add_producer(producer_const_ptr_type producer) {
+            _producers.push_back(producer);
+        }
+
+        const consumer_list& get_consumers() const {
             return _consumers;
+        }
+
+        const producer_list& get_producers() const {
+            return _producers;
         }
 
     private:
         id_type _channel_id;
-        bindable_list _producers;
-        bindable_list _consumers;
+        producer_list _producers;
+        consumer_list _consumers;
     };
 }
 

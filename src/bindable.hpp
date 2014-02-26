@@ -2,27 +2,40 @@
 #ifndef LMQ_BINDABLE_HPP
 #define LMQ_BINDABLE_HPP
 
-//#include "locked_queue.hpp"
-#include "context.hpp"
+#include "context_interface.hpp"
 
 namespace lmq {
 
     class bindable {
-        context& _ctx;
+        context_interface& _ctx;
         const bool _is_consumer;
 
     protected:
-        typedef const context& const_context_type;
+        typedef const context_interface& const_context_type;
         typedef const channel_id::id_type& const_channel_id_type;
 
         bindable(const_context_type ctx, const bool is_consumer)
-        :_ctx(const_cast<context&>(ctx)), _is_consumer(is_consumer) {
+        :_ctx(const_cast<context_interface&>(ctx)), _is_consumer(is_consumer) {
+        }
+
+        context_interface& get_context() {
+            return _ctx;
         }
 
     public:
-        void bind(const_channel_id_type channel_id) {
-            _ctx.bind_channel(channel_id, this, _is_consumer);
-        }
+        virtual void bind(const_channel_id_type ch_id) = 0;
+    };
+
+    struct consumer_base : public bindable {
+        consumer_base(const_context_type ctx)
+        :bindable(ctx, false) {
+        };
+    };
+
+    struct producer_base : public bindable {
+        producer_base(const_context_type ctx)
+        :bindable(ctx, true) {
+        };
     };
 }
 

@@ -25,7 +25,7 @@ SCENARIO("channel") {
         consumer co(ctx);
         
         WHEN("the consumer is added") {
-            ch.add_consumer(co);
+            ch.add_consumer(&co);
             
             THEN("the consumer count is increased, but not the producer count") {
                 REQUIRE(1 == ch.get_consumers().size());
@@ -38,7 +38,7 @@ SCENARIO("channel") {
         producer pr(ctx);
 
         WHEN("the producer is added") {
-            ch.add_producer(pr);
+            ch.add_producer(&pr);
 
             THEN("the producer count is increased, but not the consumer count") {
                 REQUIRE(0 == ch.get_consumers().size());

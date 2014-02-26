@@ -7,7 +7,7 @@
 
 namespace lmq {
 
-    class context {
+    class context : public context_interface {
         typedef std::map<channel::id_type, channel> container_type;
     public:
         /*static context& getContext() {
@@ -15,20 +15,15 @@ namespace lmq {
             return ctx;
         }*/
 
-        void bind_channel(const channel::id_type& channel_id, bindable* b, const bool is_consumer) {
+        virtual void bind_channel(const channel::id_type& channel_id, consumer_base& c) {
             auto ch = get_existing_channel(channel_id);
-            is_consumer ? ch->add_consumer(*b) : ch->add_producer(*b);
+            ch->add_consumer(&c);
         }
 
-        /*void bind_channel(const channel::id_type channel_id, const consumer& c) {
+        virtual void bind_channel(const channel::id_type& channel_id, producer_base& p) {
             auto ch = get_existing_channel(channel_id);
-            ch->add_consumer(c);
+            ch->add_producer(&p);
         }
-
-        void bind_channel(const channel::id_type channel_id, const producer& p) {
-            auto ch = get_existing_channel(channel_id);
-            ch->add_producer(p);
-        }*/
 
         container_type::size_type get_channel_count() const {
             return _channels.size();
