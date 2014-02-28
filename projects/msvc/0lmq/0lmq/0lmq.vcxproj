@@ -122,6 +122,7 @@
     <ClInclude Include="..\..\..\..\src\context.hpp" />
     <ClInclude Include="..\..\..\..\src\context_interface.hpp" />
     <ClInclude Include="..\..\..\..\src\locked_queue.hpp" />
+    <ClInclude Include="..\..\..\..\src\message.hpp" />
     <ClInclude Include="..\..\..\..\src\producer.hpp" />
     <ClInclude Include="..\..\..\..\test\test.hpp" />
   </ItemGroup>
@@ -129,6 +130,7 @@
     <ClCompile Include="..\..\..\..\test\channel_test.cpp" />
     <ClCompile Include="..\..\..\..\test\context_test.cpp" />
     <ClCompile Include="..\..\..\..\test\locked_queue_test.cpp" />
+    <ClCompile Include="..\..\..\..\test\producer_test.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

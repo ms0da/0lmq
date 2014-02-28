@@ -7,6 +7,12 @@
 
 namespace lmq {
 
+    // TODO use 1 bit has an atomic lock:
+    // min : 0000 0000
+    // max : 7fff ffff
+    // min | max : 1000 0000 => lock is on
+    // then spin lock... until 0 (lock is off)
+
     template<typename T>
     struct locked_queue {
         typedef T elem_type;        

@@ -3,7 +3,9 @@
 #define LMQ_CHANNEL_HPP
 
 #include <list>
+
 #include "bindable.hpp"
+#include "message.hpp"
 
 namespace lmq {
 
@@ -41,6 +43,12 @@ namespace lmq {
 
         const producer_list& get_producers() const {
             return _producers;
+        }
+
+        void push(const message& msg) const {
+            for(auto cons : _consumers) {
+                cons->consume(msg);
+            }
         }
 
     private:
