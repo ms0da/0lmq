@@ -5,12 +5,13 @@
 #include <map>
 
 #include "channel.hpp"
+#include "message_factory.hpp"
 
 namespace lmq {
 
     class context : public context_interface {
         typedef channel_id::id_type channel_id_type;
-        typedef std::map<channel_id::id_type, channel> container_type;
+        typedef std::map<channel_id_type, channel> container_type;
     public:
 
         virtual void bind_channel(const channel_id_type& channel_id, consumer_base& c) {
@@ -41,6 +42,10 @@ namespace lmq {
             return ch_ret;
         }
 
+        message_factory& get_message_factory() {
+            return _msg_factory;
+        }
+
     private:
         bool channel_exists(const channel_id_type& channel_id) {
             const auto it = _channels.find(channel_id);
@@ -56,6 +61,7 @@ namespace lmq {
         }
 
         container_type _channels;
+        message_factory _msg_factory;
     };
 }
 

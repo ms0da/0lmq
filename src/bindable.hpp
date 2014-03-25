@@ -5,7 +5,7 @@
 #include <list>
 
 #include "context_interface.hpp"
-#include "message.hpp"
+#include "message_factory.hpp"
 
 namespace lmq {
 
@@ -34,7 +34,7 @@ namespace lmq {
         :bindable(ctx) {
         };
 
-        virtual void consume(const message& msg) =  0;
+        virtual void consume(const message_factory::message* const msg) =  0;
     };
 
     struct producer_base : public bindable {
@@ -42,7 +42,7 @@ namespace lmq {
         :bindable(ctx) {
         };
 
-        virtual void publish(const message& msg) = 0;
+        virtual void publish(const message_factory::message* const msg, const_channel_id_type ch_dest) = 0;
     };
 }
 

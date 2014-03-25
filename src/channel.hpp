@@ -5,7 +5,7 @@
 #include <list>
 
 #include "bindable.hpp"
-#include "message.hpp"
+#include "message_factory.hpp"
 
 namespace lmq {
 
@@ -45,7 +45,7 @@ namespace lmq {
             return _producers;
         }
 
-        void push(const message& msg) const {
+        void push(const message_factory::message* const msg) const {
             for(auto cons : _consumers) {
                 cons->consume(msg);
             }

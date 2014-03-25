@@ -42,7 +42,7 @@
     <ClInclude Include="..\..\..\..\src\context_interface.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\src\message.hpp">
+    <ClInclude Include="..\..\..\..\src\message_factory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -57,6 +57,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\test\producer_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\test\consumer_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\test\message_factory_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

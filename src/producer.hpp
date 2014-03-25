@@ -28,10 +28,11 @@ namespace lmq {
             _channels.emplace(std::make_pair(ch_id, ch));
         }
 
-        virtual void publish(const message& msg) {
-            for(auto ch_pair : _channels) {
-                auto const ch = ch_pair.second;
-                ch->push(msg);
+        virtual void publish(const message_factory::message* const msg, const_channel_id_type ch_dest) {
+            auto elem = _channels.find(ch_dest);
+            // if channel exists
+            if(end(_channels) != elem) {
+                elem->second->push(msg);
             }
         }
 
