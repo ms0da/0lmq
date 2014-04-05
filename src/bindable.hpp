@@ -44,7 +44,7 @@ namespace lmq {
         };
 
         typedef const message_factory::message& const_msg_ref_type;
-        virtual void publish(const_msg_ref_type, const_channel_id_type ch_dest) = 0;
+        virtual bool publish(const_msg_ref_type, const_channel_id_type ch_dest) = 0;
     };
 }
 
