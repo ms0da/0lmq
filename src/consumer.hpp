@@ -17,12 +17,12 @@ namespace lmq {
             get_context().bind_channel(ch_id, *this);
         }
 
-        virtual void consume(const message_factory::message* const msg) {
+        virtual void consume(std::shared_ptr<const_msg_type> msg) {
             _msgs.push_back(msg);
         }
 
         const message_factory::message* const get_message() const {
-            return _msgs.empty() ? nullptr : _msgs.front();
+            return _msgs.empty() ? nullptr : _msgs.front().get();
         }
 
         void next_message() {
@@ -30,7 +30,7 @@ namespace lmq {
         }
 
     private:
-        typedef std::list<const message_factory::message* const> container_type;
+        typedef std::list<std::shared_ptr<const_msg_type>> container_type;
 
         container_type _msgs;
     };
