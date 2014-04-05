@@ -12,15 +12,15 @@ namespace lmq {
     class context : public context_interface {
         typedef channel_id::id_type channel_id_type;
         typedef std::map<channel_id_type, channel> container_type;
-    public:
 
+    public:
         virtual void bind_channel(const channel_id_type& channel_id, consumer_base& c) {
-            auto ch = get_existing_channel(channel_id);
+            auto ch = get_channel(channel_id);
             ch->add_consumer(&c);
         }
 
         virtual void bind_channel(const channel_id_type& channel_id, producer_base& p) {
-            auto ch = get_existing_channel(channel_id);
+            auto ch = get_channel(channel_id);
             ch->add_producer(&p);
         }
 
@@ -32,12 +32,14 @@ namespace lmq {
             return _channels.count(channel_id);
         }
 
-        virtual const channel* const get_channel(const channel_id_type& channel_id) const {
-            const auto itt = _channels.find(channel_id);
-            const bool exists = _channels.end() != itt;
-            const channel* ch_ret = nullptr;
+        virtual channel* const get_channel(const channel_id_type& channel_id) {
+            auto itt = _channels.find(channel_id);
+            bool exists = end(_channels) != itt;
+            channel* ch_ret = nullptr;
             if(exists) {
-                ch_ret = &(itt->second);
+                ch_ret = &itt->second;
+            } else {
+                ch_ret = create_new_channel(channel_id);
             }
             return ch_ret;
         }
@@ -47,17 +49,14 @@ namespace lmq {
         }
 
     private:
+        channel* const create_new_channel(const channel_id_type& ch_id) {
+            _channels.emplace(ch_id, channel(ch_id));
+            return &_channels.at(ch_id);
+        }
+
         bool channel_exists(const channel_id_type& channel_id) {
             const auto it = _channels.find(channel_id);
             return _channels.end() != it;
-        }
-
-        channel* const get_existing_channel(const channel_id_type& channel_id) {
-            bool exists = channel_exists(channel_id);
-            if(!exists) {
-                _channels.emplace(channel_id, channel(channel_id));
-            }
-            return &_channels.at(channel_id);
         }
 
         container_type _channels;

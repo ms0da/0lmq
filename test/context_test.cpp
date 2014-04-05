@@ -1,5 +1,5 @@
 
-#include <algorithm>
+//#include <algorithm>
 
 #include "../ext/catch/catch.hpp"
 #include "../src/context.hpp"
@@ -21,10 +21,10 @@ SCENARIO("context") {
             auto ch_count = ctx.get_channel_count();
             REQUIRE(ch_count == 0);
 
-            THEN("no channel exists") {
+            THEN("the channel exists") {
                 ch = ctx.get_channel(c_id);
-                const bool not_exist_channel = nullptr == ch;
-                REQUIRE(not_exist_channel);
+                const bool exist_channel = nullptr != ch;
+                REQUIRE(exist_channel);
             }
         }
         WHEN("a consumer is bound") {
@@ -59,9 +59,5 @@ SCENARIO("context") {
                 REQUIRE(1 == producers.size());
             }
         }
-    }
-    GIVEN("a message") {
-        using lmq::message_factory;
-        REQUIRE(false);
     }
 }
