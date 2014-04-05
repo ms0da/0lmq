@@ -6,12 +6,12 @@
 
 #include "bindable.hpp"
 #include "message_factory.hpp"
+#include "context_interface.hpp"
 
 namespace lmq {
 
     // USE POINTER FOR CONTENT OF LISTS
     // UNIQUE PTR? AUTO PTR?
-
     struct channel {
         typedef channel_id::id_type id_type;
 
@@ -20,6 +20,8 @@ namespace lmq {
 
         typedef producer_base* const producer_const_ptr_type;
         typedef std::list<producer_const_ptr_type> producer_list;
+
+        typedef const message_factory::message const_msg_type;
 
         channel(const id_type& id)
         :_channel_id(id) {
@@ -45,10 +47,11 @@ namespace lmq {
             return _producers;
         }
 
-        void push(const message_factory::message* const msg) const {
+        void push(producer_base::const_msg_ref_type msg) {
+            auto shared_ptr_msg = std::make_shared<const_msg_type>(msg);
             for(auto cons : _consumers) {
-                cons->consume(msg);
-            }
+                cons->consume(shared_ptr_msg);
+            }            
         }
 
     private:
