@@ -12,6 +12,12 @@ namespace lmq {
     struct message_factory {
 
         struct message {
+            message(int i) { _i = i; }
+            int _i;
+
+            int get() const {
+                return _i;
+            }
         };
 
         
