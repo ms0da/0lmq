@@ -26,12 +26,13 @@ namespace lmq {
         }
 
         void next_message() {
-            _msgs.pop_front();
+            if(!_msgs.empty()) {
+                _msgs.pop_front();
+            }
         }
 
     private:
         typedef std::list<std::shared_ptr<const_msg_type>> container_type;
-
         container_type _msgs;
     };
 }
