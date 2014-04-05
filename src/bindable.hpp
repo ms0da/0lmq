@@ -34,7 +34,8 @@ namespace lmq {
         :bindable(ctx) {
         };
 
-        virtual void consume(const message_factory::message* const msg) =  0;
+        typedef const message_factory::message const_msg_type;
+        virtual void consume(std::shared_ptr<const_msg_type> msg) =  0;
     };
 
     struct producer_base : public bindable {
@@ -42,7 +43,8 @@ namespace lmq {
         :bindable(ctx) {
         };
 
-        virtual void publish(const message_factory::message* const msg, const_channel_id_type ch_dest) = 0;
+        typedef const message_factory::message& const_msg_ref_type;
+        virtual void publish(const_msg_ref_type, const_channel_id_type ch_dest) = 0;
     };
 }
 

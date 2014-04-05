@@ -10,8 +10,7 @@
 namespace lmq {
 
     class producer : public producer_base {
-        typedef std::map<const channel_id::id_type, const channel* const> container_type;
-
+        typedef std::map<const channel_id::id_type, channel* const> container_type;
         container_type _channels;
 
     public:
@@ -28,7 +27,7 @@ namespace lmq {
             _channels.emplace(std::make_pair(ch_id, ch));
         }
 
-        virtual void publish(const message_factory::message* const msg, const_channel_id_type ch_dest) {
+        virtual void publish(const_msg_ref_type msg, const_channel_id_type ch_dest) {
             auto elem = _channels.find(ch_dest);
             // if channel exists
             if(end(_channels) != elem) {
