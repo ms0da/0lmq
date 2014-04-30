@@ -4,7 +4,8 @@
 
 #include <list>
 
-#include "bindable.hpp"
+#include "consumer_interface.hpp"
+#include "producer_interface.hpp"
 #include "message_factory.hpp"
 #include "context_interface.hpp"
 
@@ -13,15 +14,15 @@ namespace lmq {
     // USE POINTER FOR CONTENT OF LISTS
     // UNIQUE PTR? AUTO PTR?
     struct channel {
-        typedef channel_id::id_type id_type;
+		using id_type = channel_id::id_type;
 
-        typedef consumer_base* const consumer_const_ptr_type;
-        typedef std::list<consumer_const_ptr_type> consumer_list;
+		using consumer_const_ptr_type = consumer_interface* const;
+		using consumer_list = std::list<consumer_const_ptr_type>;
 
-        typedef producer_base* const producer_const_ptr_type;
-        typedef std::list<producer_const_ptr_type> producer_list;
+		using producer_const_ptr_type = producer_interface* const;
+        using producer_list = std::list<producer_const_ptr_type>;
 
-        typedef const message_factory::message const_msg_type;
+		using const_msg_type = message_factory::message;
 
         channel(const id_type& id)
         :_channel_id(id) {
@@ -47,7 +48,7 @@ namespace lmq {
             return _producers;
         }
 
-        void push(producer_base::const_msg_ref_type msg) {
+        void push(producer_interface::const_msg_ref_type msg) {
             auto shared_ptr_msg = std::make_shared<const_msg_type>(msg);
             for(auto cons : _consumers) {
                 cons->consume(shared_ptr_msg);

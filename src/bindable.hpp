@@ -28,24 +28,6 @@ namespace lmq {
     private:
         context_interface& _ctx;
     };
-
-    struct consumer_base : public bindable {
-        consumer_base(const_context_type ctx)
-        :bindable(ctx) {
-        };
-
-        typedef const message_factory::message const_msg_type;
-        virtual void consume(std::shared_ptr<const_msg_type> msg) =  0;
-    };
-
-    struct producer_base : public bindable {
-        producer_base(const_context_type ctx)
-        :bindable(ctx) {
-        };
-
-        typedef const message_factory::message& const_msg_ref_type;
-        virtual bool publish(const_msg_ref_type, const_channel_id_type ch_dest) = 0;
-    };
 }
 
 #endif

@@ -43,7 +43,7 @@ SCENARIO("channel") {
                     auto msg = co.get_message();
                     auto msg_ptr_null = nullptr == msg;
                     REQUIRE_FALSE(msg_ptr_null);
-                    REQUIRE(msg->get() == msg_value);
+					REQUIRE(msg->get_ref() == msg_value);
                 }
             }
         }

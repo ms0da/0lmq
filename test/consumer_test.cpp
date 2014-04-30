@@ -52,7 +52,7 @@ SCENARIO("consumer") {
                 auto msg = cons.get_message();
                 bool is_msg_present = msg != nullptr;
                 REQUIRE(is_msg_present);
-                REQUIRE(msg->get() == msg_value);
+                REQUIRE(msg->get_ref() == msg_value);
 
                 AND_WHEN("the consumer is ready for another message, but none have been consumed") {
                     cons.next_message();
@@ -72,7 +72,7 @@ SCENARIO("consumer") {
                         msg = cons.get_message();
                         is_msg_present = msg != nullptr;
                         REQUIRE(is_msg_present);
-                        REQUIRE(msg->get() == snd_msg_value);
+						REQUIRE(msg->get_ref() == snd_msg_value);
                     }
                 }
             }

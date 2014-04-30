@@ -5,7 +5,7 @@
 namespace lmq {
 
     namespace channel_id {
-        typedef int id_type;
+		using id_type = int;
     }
 }
 

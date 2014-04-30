@@ -4,13 +4,13 @@
 
 #include <list>
 
-#include "bindable.hpp"
+#include "consumer_interface.hpp"
 
 namespace lmq {
 
-    struct consumer : public consumer_base {
+	struct consumer : public consumer_interface {
         consumer(const_context_type ctx)
-        :consumer_base(ctx) {
+		:consumer_interface(ctx) {
         }
 
         virtual void bind(const_channel_id_type ch_id) {
@@ -32,7 +32,7 @@ namespace lmq {
         }
 
     private:
-        typedef std::list<std::shared_ptr<const_msg_type>> container_type;
+		using container_type = std::list<std::shared_ptr<const_msg_type>>;
         container_type _msgs;
     };
 }

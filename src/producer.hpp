@@ -4,20 +4,19 @@
 
 #include <map>
 
-#include "bindable.hpp"
+#include "producer_interface.hpp"
 #include "channel.hpp"
 
 namespace lmq {
 
-    class producer : public producer_base {
-        typedef std::map<const channel_id::id_type, channel* const> container_type;
-        container_type _channels;
+    class producer : public producer_interface {
+		using container_type = std::map<const channel_id::id_type, channel* const>;
 
-    public:
-        typedef container_type::size_type size_type;
+	public:
+        using size_type = container_type::size_type;
 
         producer(const_context_type ctx)
-        :producer_base(ctx) {
+        :producer_interface(ctx) {
         }
 
         virtual void bind(const_channel_id_type ch_id) {
@@ -42,6 +41,9 @@ namespace lmq {
         size_type get_bound_channel_count() {
             return _channels.size();
         }
+
+	private:
+		container_type _channels;
     };
 }
 

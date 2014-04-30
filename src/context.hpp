@@ -10,16 +10,16 @@
 namespace lmq {
 
     class context : public context_interface {
-        typedef channel_id::id_type channel_id_type;
-        typedef std::map<channel_id_type, channel> container_type;
+		using channel_id_type = channel_id::id_type ;
+		using container_type = std::map<channel_id_type, channel>;
 
     public:
-        virtual void bind_channel(const channel_id_type& channel_id, consumer_base& c) {
+        virtual void bind_channel(const channel_id_type& channel_id, consumer_interface& c) {
             auto ch = get_channel(channel_id);
             ch->add_consumer(&c);
         }
 
-        virtual void bind_channel(const channel_id_type& channel_id, producer_base& p) {
+		virtual void bind_channel(const channel_id_type& channel_id, producer_interface& p) {
             auto ch = get_channel(channel_id);
             ch->add_producer(&p);
         }

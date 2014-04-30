@@ -11,25 +11,21 @@ namespace lmq {
 
     struct message_factory {
 
-        struct message {
-            message(int i) { _i = i; }
-            int _i;
+		//template<typename T>
+		struct message {
+			using value_type = int;
 
-            int get() const {
-                return _i;
-            }
-        };
+			message(const value_type& value)
+				:_value(value) {
+			}
 
-        
+			const value_type& get_ref() const {
+				return _value;
+			}
 
-        //typedef std::map<const factory_message* const, std::shared_ptr<factory_message>> container_type;
-        //container_type _msgs;
-
-        /*message get_new_message() {
-            message msg;
-            return std::move(msg);
-        }*/
-
+		private:
+			const value_type _value;
+		};
     };
 }
 
