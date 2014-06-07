@@ -20,30 +20,14 @@ namespace lmq {
         }
 
         virtual void bind(const_channel_id_type ch_id) {
-			if(0 == _channels.count(ch_id)) {
-				context_interface& ctx = get_context();
-				ctx.bind_channel(ch_id, *this);
-				auto ch = ctx.get_channel(ch_id);
-				_channels.emplace(std::make_pair(ch_id, ch));
-			}
+			context_interface& ctx = get_context();
+			ctx.bind_channel(ch_id, *this);
         }
 
-        virtual bool publish(const_msg_ref_type msg, const_channel_id_type ch_dest) {
-            auto elem = _channels.find(ch_dest);
-			const bool channel_exists = end(_channels) != elem;
-            // if a channel exists
-            if(channel_exists) {
-                elem->second->push(msg);
-            }
-			return channel_exists;
+        virtual void publish(publish_type value) {
+            context_interface& ctx = get_context();
+            ctx.publish(*this, value);
         }
-
-        size_type get_bound_channel_count() {
-            return _channels.size();
-        }
-
-	private:
-		container_type _channels;
     };
 }
 

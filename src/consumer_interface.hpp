@@ -12,7 +12,8 @@ namespace lmq {
 		};
 
 		using const_msg_type = const message_factory::message;
-		virtual void consume(std::shared_ptr<const_msg_type> msg) = 0;
+        template<typename T>
+		virtual void consume(T value) = 0;
 	};
 
 }

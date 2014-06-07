@@ -11,6 +11,14 @@
 
 namespace lmq {
 
+    struct channel_interface {
+        using id_type = channel_id::id_type;
+
+
+    private:
+        id_type _channel_id;
+    };
+
     // USE POINTER FOR CONTENT OF LISTS
     // UNIQUE PTR? AUTO PTR?
     struct channel {
@@ -48,10 +56,11 @@ namespace lmq {
             return _producers;
         }
 
-        void push(producer_interface::const_msg_ref_type msg) {
-            auto shared_ptr_msg = std::make_shared<const_msg_type>(msg);
+        template<typename T>
+        void push(T value) {
+            auto shared_ptr_msg = std::make_shared<const_msg_type>(value);
             for(auto cons : _consumers) {
-                cons->consume(shared_ptr_msg);
+                cons->consume(value);
             }            
         }
 

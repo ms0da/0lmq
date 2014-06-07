@@ -11,7 +11,6 @@ namespace lmq {
 
     struct bindable {
         typedef const channel_id::id_type& const_channel_id_type;
-        
         virtual void bind(const_channel_id_type ch_id) = 0;
 
     protected:

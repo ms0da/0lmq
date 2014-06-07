@@ -17,7 +17,8 @@ namespace lmq {
             get_context().bind_channel(ch_id, *this);
         }
 
-        virtual void consume(std::shared_ptr<const_msg_type> msg) {
+        template<typename T>
+        virtual void consume(std::shared_ptr<T> msg) {
             _msgs.push_back(msg);
         }
 
