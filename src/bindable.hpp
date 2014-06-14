@@ -10,22 +10,22 @@
 namespace lmq {
 
     struct bindable {
-        typedef const channel_id::id_type& const_channel_id_type;
+        using const_channel_id_type = const channel_id::id_type&;
         virtual void bind(const_channel_id_type ch_id) = 0;
+        virtual bool unbind(const_channel_id_type ch_id) = 0;
 
     protected:
-        typedef const context_interface& const_context_type;
-
-        bindable(const_context_type ctx)
-        :_ctx(const_cast<context_interface&>(ctx)) {
+        using ctx_type = context_interface&;
+        bindable(ctx_type ctx)
+        :_ctx(ctx) {
         }
 
-        context_interface& get_context() const {
+        ctx_type& get_context() const {
             return _ctx;
         }
 
     private:
-        context_interface& _ctx;
+        ctx_type& _ctx;
     };
 }
 

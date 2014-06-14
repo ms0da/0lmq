@@ -1,67 +1,56 @@
 
 #include "test.hpp"
 #include "../src/channel.hpp"
+#include "../src/producer.hpp"
 #include "../src/context.hpp"
 
-#include "../src/consumer.hpp"
-#include "../src/producer.hpp"
-
-SCENARIO("channel") {
-    using lmq::context;
-    context ctx;
-
+SCENARIO("producers can be added and removed", "[channel]") {
     using lmq::channel;
-    const channel::id_type ch_id = 42;
-    channel* ch = ctx.get_channel(ch_id);
-
-    REQUIRE(ch->get_id() == ch_id);
-    auto consumers = ch->get_consumers();
-    REQUIRE(0 == consumers.size());
-    auto producers = ch->get_producers();
-    REQUIRE(0 == producers.size());
-
-    GIVEN("a consumer") {
-        using lmq::consumer;
-        consumer co(ctx);
+    using lmq::channel_id::id_type;
+    
+    GIVEN("an empty channel") {
+        const id_type ch_id = 42;
+        channel ch(ch_id);
         
-        WHEN("the consumer is added") {
-            ch->add_consumer(&co);
-            
-            THEN("the consumer count is increased, but not the producer count") {
-                auto consumers = ch->get_consumers();
-                REQUIRE(1 == consumers.size());
-                auto cons_first = consumers.front();
-                auto cons_ptr_eq = cons_first == &co;
-                REQUIRE(cons_ptr_eq);
-                REQUIRE(0 == ch->get_producers().size());
-            }
-            WHEN("a message is pushed") {
-                const int msg_value = 55;
-                ch->push(std::move(lmq::message_factory::message(msg_value)));
+        using lmq::producer;
+        using lmq::context;
+        context ctx;
+        producer prod(ctx);
 
-                THEN("the consumer receive the message") {
-                    auto msg = co.get_message();
-                    auto msg_ptr_null = nullptr == msg;
-                    REQUIRE_FALSE(msg_ptr_null);
-					REQUIRE(msg->get_ref() == msg_value);
+        REQUIRE(ch_id == ch.get_id());
+        REQUIRE(0 == ch.get_producers().size());
+
+        WHEN("a producer is added") {
+            ch.add_producer(&prod);
+
+            THEN("the producer count is increased") {
+                REQUIRE(1 == ch.get_producers().size());
+
+                WHEN("the same producer is removed") {
+                    auto removed = ch.remove(&prod);
+
+                    THEN("the producer count is decreased") {
+                        REQUIRE(removed);
+                        REQUIRE(0 == ch.get_producers().size());
+                    }
+                }
+                WHEN("a different producer is removed") {
+                    producer prod_not_added(ctx);
+                    auto removed = ch.remove(&prod_not_added);
+
+                    THEN("the producer count do not change") {
+                        REQUIRE(!removed);
+                        REQUIRE(1 == ch.get_producers().size());
+                    }
                 }
             }
         }
-    }
-    GIVEN("a producer") {
-        using lmq::producer;
-        producer pr(ctx);
+        WHEN("a producer is removed") {
+            auto removed = ch.remove(&prod);
 
-        WHEN("the producer is added") {
-            ch->add_producer(&pr);
-
-            THEN("the producer count is increased, but not the consumer count") {
-                REQUIRE(0 == ch->get_consumers().size());
-                auto producers = ch->get_producers();
-                REQUIRE(1 == producers.size());
-                auto prod_first = producers.front();
-                auto prod_ptr_eq = prod_first == &pr;
-                REQUIRE(prod_ptr_eq);
+            THEN("nothing has changed") {
+                REQUIRE(!removed);
+                REQUIRE(0 == ch.get_producers().size());
             }
         }
     }

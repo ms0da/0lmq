@@ -7,7 +7,7 @@
 namespace lmq {
 
 	struct producer_interface : public bindable {
-		producer_interface(const_context_type ctx)
+		producer_interface(ctx_type ctx)
 		:bindable(ctx) {
 		};
 

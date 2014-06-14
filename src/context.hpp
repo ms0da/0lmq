@@ -9,26 +9,30 @@
 namespace lmq {
 
     class context : public context_interface {
-        using channel_id_type = channel_id::id_type;
-        using container_type = std::map<channel_id_type, channel>;
+        using container_type = std::map<int, channel>;
 
         std::map<producer_interface * const, std::list<channel * const>> producer_channels;
 
     public:
-        virtual void bind_channel(const channel_id_type& channel_id, producer_interface& producer) {
-            auto ch = get_channel(channel_id);
+        virtual void bind_channel(channel_id ch_id, producer_interface& producer) {
+            auto ch = get_channel(ch_id);
             ch->add_producer(&producer);
 
             auto ch_list = producer_channels[&producer];
             ch_list.push_back(ch);
         }
 
-        virtual void publish(producer_interface& producer, producer_interface::publish_type value) {
-            auto ch_list = producer_channels[&producer];
-            for (channel* const ch : ch_list) {
-                ch->push(value);
-            }
+        virtual bool unbind_channel(channel_id ch_id, producer_interface& producer) {
+            auto ch = get_channel(ch_id);
+            return ch->remove(&producer);
         }
+
+        //virtual void publish(producer_interface& producer, producer_interface::publish_type value) {
+        //    auto ch_list = producer_channels[&producer];
+        //    for (channel* const ch : ch_list) {
+        //        //ch->push(value);
+        //    }
+        //}
 
         //virtual void bind_channel(const channel_id_type& channel_id, consumer_interface& c) {
         //    auto ch = get_channel(channel_id);
@@ -44,7 +48,7 @@ namespace lmq {
         //}
 
     private:
-        channel* const get_channel(const channel_id_type& channel_id) {
+        channel* const get_channel(channel_id channel_id) {
             auto itt = _channels.find(channel_id);
             bool exists = end(_channels) != itt;
             channel* ch_ret = nullptr;
@@ -56,12 +60,12 @@ namespace lmq {
             return ch_ret;
         }
 
-        channel* const create_new_channel(const channel_id_type& ch_id) {
+        channel* const create_new_channel(channel_id ch_id) {
             _channels.emplace(ch_id, channel(ch_id));
             return &_channels.at(ch_id);
         }
 
-        bool channel_exists(const channel_id_type& channel_id) {
+        bool channel_exists(channel_id channel_id) {
             const auto it = _channels.find(channel_id);
             return _channels.end() != it;
         }

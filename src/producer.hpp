@@ -15,7 +15,7 @@ namespace lmq {
 	public:
         using size_type = container_type::size_type;
 
-        producer(const_context_type ctx)
+        producer(ctx_type ctx)
         :producer_interface(ctx) {
         }
 
@@ -24,9 +24,14 @@ namespace lmq {
 			ctx.bind_channel(ch_id, *this);
         }
 
+        virtual bool unbind(const_channel_id_type ch_id) {
+            context_interface& ctx = get_context();
+            return ctx.unbind_channel(ch_id, *this);
+        }
+
         virtual void publish(publish_type value) {
             context_interface& ctx = get_context();
-            ctx.publish(*this, value);
+            //ctx.publish(*this, value);
         }
     };
 }

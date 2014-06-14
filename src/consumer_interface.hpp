@@ -7,13 +7,13 @@
 namespace lmq {
 
 	struct consumer_interface : public bindable {
-		consumer_interface(const_context_type ctx)
+		consumer_interface(ctx_type ctx)
 			:bindable(ctx) {
 		};
 
 		using const_msg_type = const message_factory::message;
         template<typename T>
-		virtual void consume(T value) = 0;
+		void consume(T value) = 0;
 	};
 
 }
